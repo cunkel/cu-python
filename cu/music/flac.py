@@ -1,0 +1,32 @@
+class FlacTags:
+    # album properties
+    ALBUM_TITLE = 'ALBUM'
+
+    DISC_INDEX = 'DISC'
+    DISC_COUNT = 'DISCC'
+
+    YEAR = 'YEAR'
+    DATE = 'DATE'
+
+    COMPILATION = 'COMPILATION'
+    RELEASE_TYPE = 'RELEASETYPE'
+
+    MB_DISC_ID = 'MUSICBRAINZ_DISCID'
+    MB_RELEASE_ID = 'MUSICBRAINZ_ALBUM_ID'
+
+    ASIN = 'ASIN'
+
+    # 'MUSICBRAINZ_ALBUMARTIST_ID'
+
+    # either/both album or track
+    ARTIST = 'ARTIST'
+    ARTIST_SORT = 'ARTISTSORT'
+    MB_ARTIST_ID = 'MUSICBRAINZ_ARTIST_ID'
+
+    COMPOSER = 'COMPOSER'
+
+    # track
+    TRACK_TITLE = 'TITLE'
+    TRACK_INDEX = 'TRACKNUMBER'
+
+    MB_TRACK_ID = 'MUSICBRAINZ_TRACKID'  # track
