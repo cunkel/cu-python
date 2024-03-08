@@ -9,53 +9,29 @@ import cu.music.config
 import cu.music.brainz
 from cu.music.brainz import extract_uuid, VARIOUS_ARTISTS_ID
 import cu.music.paths
-from cu.music.paths import (cue_path, CUE_SUFFIX, flac_path, wav_path,
-                            WAV_SUFFIX, url_path, URL_SUFFIX)
+from cu.music.paths import (done_discids_by_mtime, cue_path, CUE_SUFFIX,
+                            flac_path, wav_path, WAV_SUFFIX, url_path,
+                            URL_SUFFIX)
 from cu.music.tags import flac_tag_args, get_tags, get_artist
 from cu.util.file import file_contents
 
 
 def get_ready_wavs():
-    rip_dir = cu.music.paths.rip_dir()
-    files = set(os.listdir(rip_dir))
-
-    done = [f[:-len(URL_SUFFIX)] for f in files if f.endswith(URL_SUFFIX)]
-
-    ready = [f for f in done
-             if f'{f}{WAV_SUFFIX}' in files and f'{f}{CUE_SUFFIX}' in files]
-
-    times = {f: os.stat(os.path.join(rip_dir, f'{f}{URL_SUFFIX}')).st_mtime
-             for f in ready}
-    ready.sort(key=lambda x: times[x])
-
-    return ready
+    return [d for d in done_discids_by_mtime()
+            if os.path.exists(wav_path(d)) and os.path.exists(wav_path(d))]
 
 
 def get_previous_and_next():
-    files = os.listdir(cu.music.config.rip_dir)
+    done = done_discids_by_mtime()
 
-    files = [f[:-len(URL_SUFFIX)] for f in files if f.endswith(URL_SUFFIX)]
+    previous_disc = {}
+    next_disc = {}
 
-    times = {}
+    for p, n in zip(done[:-1], done[1:]):
+        previous_disc[n] = p
+        next_disc[p] = n
 
-    for file in files:
-        statinfo = os.stat(os.path.join(cu.music.config.rip_dir,
-                                        file+URL_SUFFIX))
-        times[file] = statinfo.st_mtime
-
-    def key(file):
-        return times[file]
-
-    files.sort(key=key)
-
-    previous = {}
-    next = {}
-
-    for p, n in zip(files[:-1], files[1:]):
-        previous[n] = p
-        next[p] = n
-
-    return previous, next
+    return previous_disc, next_disc
 
 
 def make_flac_from_wav(release_id, discid, sequence,

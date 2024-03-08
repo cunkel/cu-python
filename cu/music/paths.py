@@ -66,3 +66,11 @@ def flac_path(release_id, sequence=None):
 
 def all_flac_files():
     return find_recursive_with_extension(cu.music.config.flac_dir, '.flac')
+
+
+# "done" is defined by having a .url file.
+def done_discids_by_mtime():
+    return sorted((f[:-len(URL_SUFFIX)]
+                   for f in os.listdir(rip_dir())
+                   if f.endswith(URL_SUFFIX)),
+                  key = lambda d: os.stat(url_path(d)).st_mtime)
