@@ -65,7 +65,11 @@ def main():
         rip_one_disc()
 
         print('Eject:')
-        cu.music.cdrom.eject('/dev/cdrom')
+        for x in range(10):
+            cu.music.cdrom.eject('/dev/cdrom')
+            time.sleep(5)
+            if cu.music.cdrom.drive_is_loaded('/dev/cdrom'):
+                break
         print()
 
 
