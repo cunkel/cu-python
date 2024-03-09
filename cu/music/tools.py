@@ -135,6 +135,12 @@ def reset_mtime(args):
 def main():
     ap = argparse.ArgumentParser()
 
+    def print_help_and_exit(args):
+        ap.print_usage()
+        sys.exit(2)
+
+    ap.set_defaults(func=print_help_and_exit)
+
     subp = ap.add_subparsers()
 
     parser_list_artists = subp.add_parser('list-artists')
