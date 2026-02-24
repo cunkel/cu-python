@@ -7,7 +7,8 @@ import musicbrainzngs.musicbrainz as mb
 
 import cu.music.config
 import cu.music.brainz
-from cu.music.brainz import extract_uuid, VARIOUS_ARTISTS_ID
+from cu.music.brainz import (extract_uuid, get_releases_by_discid,
+                             VARIOUS_ARTISTS_ID)
 import cu.music.paths
 from cu.music.paths import (done_discids_by_mtime, cue_path, CUE_SUFFIX,
                             flac_path, wav_path, WAV_SUFFIX, url_path,
@@ -97,14 +98,14 @@ def repeat_prompt(prompt, convert_or_reject=lambda x: x):
 
 def choose_release_for_discid(discid, prompt=False):
     try:
-        disc = cu.music.brainz.get_releases_by_discid(discid)
+        releases = cu.music.brainz.get_releases_by_discid(discid)
     except mb.ResponseError as e:
         if isinstance(e.cause, HTTPError) and e.cause.code == 404:
             raise NoSuchDisc()
         raise
 
     releases = [cu.music.brainz.get_release_by_id(release['id'])
-                for release in disc['release-list']]
+                for release in releases]
 
     if not releases:
         raise NoMatchingRelease()
@@ -258,16 +259,11 @@ def main():
 
             print("     ", name, discid)
             try:
-                disc = get_releases_by_discid(discid)
+                releases = get_releases_by_discid(discid)
             except mb.ResponseError as e:
                 if isinstance(e.cause, HTTPError) and e.cause.code == 404:
                     print("        (No match)")
                     continue
-
-            releases = [release
-                        for disc in discs
-                        for release in disc['disc']['release-list']
-                        ]
 
             for r in releases:
                 print("       ", r['title'])

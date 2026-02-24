@@ -114,8 +114,8 @@ def get_releases_by_discid(discid):
     # It seems like mb.get_releases_by_discid should return a list of releases
     # at the top, but it actually returns a single disc object (in the usual
     # way as {'disc': {...}}) with 'release-list' populated.
-    return mb.get_releases_by_discid(discid, includes=[],
-                                     cdstubs=False)['disc']
+    return mb.get_releases_by_discid(
+        discid, includes=[], cdstubs=False)['disc']['release-list']
 
 
 def _get_paginated_browse(browse_func, prefix, limit=50,
