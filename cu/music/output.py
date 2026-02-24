@@ -18,11 +18,12 @@ forbidden_specials = set(' \t\r\n:"/\\;?<>*|^#')
 
 # TODO: The unidecode package does this better--which is not hard.
 ascii_substitutions = {
-    '\u0101': 'a',
-    '\u0144': 'n',
+    '\xab': '<<',
+    '\xbb': '>>',
     '\xd3': 'O',
     '\u0159': 'r',
     '\xc1': 'A',
+    '\xc9': 'E',
     '\xdf': 'sz',  # Eszett -- why isn't this 'ss'?
     '\xea': 'e',
     '\xe1': 'a',
@@ -43,12 +44,20 @@ ascii_substitutions = {
     '\xf9': 'u',
     '\xfa': 'u',
     '\xfc': 'u',
+    '\xfe': 'y',
+    '\u0101': 'a',
+    '\u0144': 'n',
     '\u0175': 'w',
     '\u2010': '-',
     '\u2013': '-',
     '\u2014': '--',
+    '\u2018': '\'',
     '\u2019': '\'',
+    '\u201c': '"',
+    '\u201d': '"',
     '\u2026': '...',
+    '\u2032': '\'',
+    '\u2033': '\'\'',
 }
 
 
