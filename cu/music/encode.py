@@ -204,6 +204,7 @@ def main():
 
         if release is None:
             skipped.append(discid)
+            continue
         elif release.get('id') is None:
             # Happens for "CD stubs" (currently not fetched by
             # brainz.choose_release_for_discid).
