@@ -54,16 +54,12 @@ class Cache:
     def _inclusions_to_str(inclusions_iterable):
         inclusions = sorted(set(inclusions_iterable))
         if any(',' in x or '@' in x for x in inclusions):
-            raise ValueError("inclusion fields may not contain ','")
-        if not inclusions:
-            # Ugly workaround.  I don't understand why the insert in
-            # get_id_for_includes won't store an empty string for contents.
-            return '@'
+            raise ValueError("inclusion fields may not contain ',' or '@'")
         return ','.join(inclusions)
 
     @staticmethod
     def _str_to_inclusions(inclusions_str):
-        if inclusions_str == '@':
+        if inclusions_str == '@' or not inclusions_str:  # @ b/c previous hack
             return frozenset()
         return frozenset(inclusions_str.split(','))
 
