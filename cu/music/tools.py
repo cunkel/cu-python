@@ -78,7 +78,8 @@ def album_ownership(args):
             key=lambda x: x.get('first-release-date', ''))
         for rg in basic_albums:
             have = '*' if rg['id'] in have_release_groups else ' '
-            print(f"{have} {rg['first-release-date']:<10} {rg['title']}")
+            first_release_date = rg.get('first-release-date', '')
+            print(f"{have} {first_release_date:<10} {rg['title']}")
 
         print()
 
